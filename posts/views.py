@@ -1,27 +1,16 @@
 from django.contrib.auth import get_user_model
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, RetrieveAPIView
+from rest_framework.viewsets import ModelViewSet
 
 from posts.models import Post
 from posts.permissions import IsAuthorOrAdminOrReadOnly
 from posts.serializers import PostSerializer, UserSerializer
 
 
-class PostList(ListCreateAPIView):
+class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 
-class PostDetail(RetrieveUpdateDestroyAPIView):
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
-    permission_classes = (IsAuthorOrAdminOrReadOnly, )
-
-
-class UserList(ListAPIView):
-    queryset = get_user_model().objects.all()
-    serializer_class = UserSerializer
-
-
-class UserDetail(RetrieveAPIView):
+class UserViewSet(ModelViewSet):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
